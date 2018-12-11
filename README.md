@@ -31,11 +31,11 @@ addition, there are another 50,000 IMDB reviews provided without any
 rating labels.
 
 # Models:
-Random Forest
-Naive Bayes
-Word2vec(stretch goals)
+- Random Forest
+- Naive Bayes
+- Word2vec(stretch goals)
 
 # Team members:
-Xin Zhang
-Lu Zhai
-Caiwei Wu
+- Xin Zhang
+- Lu Zhai
+- Caiwei Wu
