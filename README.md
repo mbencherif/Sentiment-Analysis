@@ -2,7 +2,7 @@
 Intro to NLP Course Project
 
 # Description
-Sentiment analysis is a challenging subject in machine learning. People
+Sentiment analysis is a challenging subject in Machine Learning. People
 express their emotions in language that is often obscured by sarcasm,
 ambiguity, and plays on words, all of which could be very misleading for
 both humans and computers. In this project, we apply different machine
