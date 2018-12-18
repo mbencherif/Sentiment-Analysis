@@ -19,7 +19,7 @@ def pre_process(text):
     stemmed_words = list(map(stemmer.stem, text.split()))
     lemmer = WordNetLemmatizer()
     stemmed_words = [lemmer.lemmatize(w) for w in stemmed_words]
-    text=[w for w in text.split() if not w in stop_w]
+    # text=[w for w in text.split() if not w in stop_w]
     text = [w for w in stemmed_words if not w in stop_w]
     text = " ".join(text)
     return text
