@@ -1,26 +1,20 @@
-# Import various modules for string cleaning
 import gensim
 import pandas as pd
 import numpy as np
 from bs4 import BeautifulSoup
 import re
 from nltk.corpus import stopwords
-# Download the punkt tokenizer for sentence splitting
 import nltk.data
-# Import the built-in logging module and configure it so that Word2Vec
-# creates nice output messages
 import logging
 from gensim.models import word2vec
 from sklearn.cluster import KMeans
 import time
-
 
 # Now we can apply this function to prepare our data for input to Word2Vec (this will take a couple minutes):
 from sklearn.ensemble import RandomForestClassifier
 
 
 def read_data():
-    # Load the punkt tokenizer
     # Read data from files
     train = pd.read_csv("datasets/labeledTrainData.tsv", header=0, delimiter="\t", quoting=3)
     test = pd.read_csv("datasets/testData.tsv", header=0, delimiter="\t", quoting=3)
@@ -32,8 +26,10 @@ def read_data():
                                           test["review"].size, unlabeled_train["review"].size))
     return train, test, unlabeled_train
 
+
 def prepare_sentences():
     train, test, unlabeled_train = read_data()
+    # Load the punkt tokenizer
     tokenizer = nltk.data.load('tokenizers/punkt/english.pickle')
     sentences = []  # Initialize an empty list of sentences
     print("Parsing sentences from training set")
@@ -43,6 +39,7 @@ def prepare_sentences():
     for review in unlabeled_train["review"]:
         sentences += review_to_sentences(review, tokenizer)
     return sentences
+
 
 def review_to_wordlist(review, remove_stopwords=False):
     # Function to convert a document to a sequence of words,
@@ -87,7 +84,7 @@ def review_to_sentences(review, tokenizer, remove_stopwords=False):
     # so this returns a list of lists
     return sentences
 
-# ****************************************************************
+
 # Calculate average feature vectors for training and testing sets,
 # using the functions we defined above. Notice that we now use stop word
 # removal.
@@ -95,13 +92,12 @@ def get_clean_reviews(num_features):
     train, test, unlabeled_train = read_data()
     clean_train_reviews = []
     for review in train["review"]:
-        clean_train_reviews.append( review_to_wordlist( review, \
-            remove_stopwords=True ))
-    print("Creating average feature vecs for test reviews")
-    clean_test_reviews = []
+        clean_train_reviews.append(review_to_wordlist(review, \
+                                                      remove_stopwords=True))
+        clean_test_reviews = []
     for review in test["review"]:
-        clean_test_reviews.append( review_to_wordlist( review, \
-            remove_stopwords=True ))
+        clean_test_reviews.append(review_to_wordlist(review, \
+                                                     remove_stopwords=True))
     return clean_train_reviews, clean_test_reviews
 
 
@@ -133,10 +129,10 @@ def create_bag_of_centroids(wordlist, word_centroid_map):
     #
     # The number of clusters is equal to the highest cluster index
     # in the word / centroid map
-    num_centroids = max( word_centroid_map.values() ) + 1
+    num_centroids = max(word_centroid_map.values()) + 1
     #
     # Pre-allocate the bag of centroids vector (for speed)
-    bag_of_centroids = np.zeros( num_centroids, dtype="float32" )
+    bag_of_centroids = np.zeros(num_centroids, dtype="float32")
     #
     # Loop over the words in the review. If the word is in the vocabulary,
     # find which cluster it belongs to, and increment that cluster count
@@ -155,25 +151,26 @@ def prepare_bag_of_centroids():
     clean_train_reviews, clean_test_reviews = get_clean_reviews(num_features=300)
     # Pre-allocate an array for the training set bags of centroids (for speed)
     train_centroids = np.zeros((train["review"].size, num_clusters), \
-        dtype="float32")
+                               dtype="float32")
 
     # Transform the training set reviews into bags of centroids
     counter = 0
     for review in clean_train_reviews:
-        train_centroids[counter] = create_bag_of_centroids( review, \
-            word_centroid_map )
+        train_centroids[counter] = create_bag_of_centroids(review, \
+                                                           word_centroid_map)
         counter += 1
 
     # Repeat for test reviews
-    test_centroids = np.zeros(( test["review"].size, num_clusters), \
-        dtype="float32" )
+    test_centroids = np.zeros((test["review"].size, num_clusters), \
+                              dtype="float32")
 
     counter = 0
     for review in clean_test_reviews:
-        test_centroids[counter] = create_bag_of_centroids( review, \
-            word_centroid_map )
+        test_centroids[counter] = create_bag_of_centroids(review, \
+                                                          word_centroid_map)
         counter += 1
     return train_centroids, test_centroids
+
 
 def predict():
     train, test, unlabeled_train = read_data()
@@ -191,11 +188,10 @@ def predict():
     output.to_csv("BagOfCentroids.csv", index=False, quoting=3)
 
 
-
 if __name__ == '__main__':
     logging.basicConfig(format='%(asctime)s : %(levelname)s : %(message)s', \
                         level=logging.INFO)
-    #train_models()
+    # train_models()
     model = gensim.models.Word2Vec.load("300features_40minwords_10context")
     start = time.time()  # Start time
     # Set "k" (num_clusters) to be 1/5th of the vocabulary size, or an
