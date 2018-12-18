@@ -9,13 +9,10 @@ import logging
 from gensim.models import word2vec
 from sklearn.cluster import KMeans
 import time
-
-# Now we can apply this function to prepare our data for input to Word2Vec (this will take a couple minutes):
 from sklearn.ensemble import RandomForestClassifier
 
 
 def read_data():
-    # Read data from files
     train = pd.read_csv("datasets/labeledTrainData.tsv", header=0, delimiter="\t", quoting=3)
     test = pd.read_csv("datasets/testData.tsv", header=0, delimiter="\t", quoting=3)
     unlabeled_train = pd.read_csv("datasets/unlabeledTrainData.tsv", header=0, delimiter="\t", quoting=3)
@@ -29,9 +26,8 @@ def read_data():
 
 def prepare_sentences():
     train, test, unlabeled_train = read_data()
-    # Load the punkt tokenizer
     tokenizer = nltk.data.load('tokenizers/punkt/english.pickle')
-    sentences = []  # Initialize an empty list of sentences
+    sentences = []
     print("Parsing sentences from training set")
     for review in train["review"]:
         sentences += review_to_sentences(review, tokenizer)
@@ -85,9 +81,6 @@ def review_to_sentences(review, tokenizer, remove_stopwords=False):
     return sentences
 
 
-# Calculate average feature vectors for training and testing sets,
-# using the functions we defined above. Notice that we now use stop word
-# removal.
 def get_clean_reviews(num_features):
     train, test, unlabeled_train = read_data()
     clean_train_reviews = []
