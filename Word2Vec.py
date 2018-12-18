@@ -9,8 +9,6 @@ import logging
 from gensim.models import word2vec
 from sklearn.cluster import KMeans
 import time
-
-# Now we can apply this function to prepare our data for input to Word2Vec (this will take a couple minutes):
 from sklearn.ensemble import RandomForestClassifier
 
 
