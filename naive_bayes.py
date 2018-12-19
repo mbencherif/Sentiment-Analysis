@@ -10,7 +10,7 @@ import sys
 
 # the method that read the review and remove non-character and stopwords
 def process_review(review):
-    review_text = BeautifulSoup(review).get_text()
+    review_text = BeautifulSoup(review,features="html5lib").get_text()
     letters_only_review = re.sub("[^a-zA-Z]", " ", review_text)
     words = letters_only_review.lower().split()
     stops = set(stopwords.words("english"))
