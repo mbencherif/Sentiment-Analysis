@@ -16,7 +16,6 @@ def process_review(review):
     stops = set(stopwords.words("english"))
     meaningful_words = [w for w in words if not w in stops]
     return (" ".join(meaningful_words))
-
 # read each review, "clean" the review, and append the review in the original file
 # with a column called "clean_review"
 def process_file(fileName):
