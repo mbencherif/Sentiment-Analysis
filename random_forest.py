@@ -2,11 +2,16 @@
 
 import pandas as pd
 from bs4 import BeautifulSoup  
+
 import re
 
+import nltk
 from nltk import WordNetLemmatizer
 from nltk.corpus import stopwords
+from nltk.corpus import brown
+from nltk.corpus import treebank
 from nltk.stem.porter import *
+
 import numpy as np
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.feature_extraction.text import CountVectorizer
@@ -17,14 +22,68 @@ def pre_process(text):
     text=re.sub("[^a-zA-Z]"," ", text.lower())
     stemmer = PorterStemmer()
     stemmed_words = list(map(stemmer.stem, text.split()))
-    lemmer = WordNetLemmatizer()
-    stemmed_words = [lemmer.lemmatize(w) for w in stemmed_words]
-    # text=[w for w in text.split() if not w in stop_w]
-    text = [w for w in stemmed_words if not w in stop_w]
+    #lemmer = WordNetLemmatizer()
+    #stemmed_words = [lemmer.lemmatize(w) for w in stemmed_words]
+    text=[w for w in stemmed_words if not w in stop_w]
+    text=[my_lemmatizer(w) for w in text]
+    #text = [w for w in stemmed_words if not w in stop_w]
     text = " ".join(text)
     return text
 
 stop_w= set(stopwords.words("english"))
+
+#generate training data for the tagger
+train_sents = treebank.tagged_sents()
+train_tagged_words=[]
+train_words=[]
+for s in train_sents:
+    for (a,b) in s:
+        train_words.append(a)
+        train_tagged_words.append((a,b))
+fd = nltk.FreqDist(train_words)
+cfd = nltk.ConditionalFreqDist(train_tagged_words)
+#calculate the frequencies of tags for each word
+most_freq_words = fd.most_common(5000) #choose most frequent 5000 words
+likely_tags = dict((word, cfd[word].max()) for (word, _) in most_freq_words)
+#write a Unigramtagger based on the likely tags
+def tagger(w):
+    if w in likely_tags.keys():
+        return (w,likely_tags[w])
+    else:
+        return (w,'NN') #back off: default tagger NN
+
+def my_lemmatizer(w):
+    if tagger(w)[1] in ('NN','NNS','NNS$','NPS','NPS$'):
+        if re.match(r'(.)+s$',w)!=None:
+            return w[:-1]
+        elif re.match(r'(.)+(x|z|s|ch|sh)es$',w)!=None:
+            return w[:-2]
+        elif re.match(r'(.)+men$',w)!=None:
+            return w[:-2]+'an'
+        elif re.match(r'(.)+ies$',w)!=None:
+            return w[:-3]+'y'
+        else:
+            return w
+    elif tagger(w)[1] in ('VB','VBD','VBG','VBN','VBP','VBZ'):
+        if re.match(r'(.)+ies$',w)!=None:
+            return w[:-3]+'y'
+        elif re.match(r'(.)+e[ds]$',w)!=None:
+            return w[:-2]
+        elif re.match(r'(.)+s$',w)!=None:
+            return w[:-1]
+        elif re.match(r'(.)+ing$',w)!=None:
+            return w[:-3]
+        else:
+            return w
+    elif tagger(w)[1] in ('JJ','JJS','JJR','JJT'):
+        if re.match(r'(.)+er$',w)!=None:
+            return w[:-2]
+        elif re.match(r'(.)+est$',w)!=None:
+            return w[:-3]
+        else:
+            return w
+    else:
+        return w        
 
 if __name__ == '__main__':
 
