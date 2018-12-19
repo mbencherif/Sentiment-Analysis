@@ -1,10 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="877a52cc-ad7d-44c1-ad45-64a9328de349" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/BagOfCentroids.csv" beforeDir="false" afterPath="$PROJECT_DIR$/BagOfCentroids.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Word2Vec.py" beforeDir="false" afterPath="$PROJECT_DIR$/Word2Vec.py" afterDir="false" />
-    </list>
+    <list default="true" id="877a52cc-ad7d-44c1-ad45-64a9328de349" name="Default Changelist" comment="" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -89,8 +86,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/random_forest.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="444">
-              <caret line="33" column="20" lean-forward="true" selection-start-line="33" selection-start-column="20" selection-end-line="33" selection-end-column="20" />
+            <state relative-caret-position="624">
+              <caret line="45" column="27" lean-forward="true" selection-start-line="45" selection-start-column="27" selection-end-line="45" selection-end-column="27" />
               <folding>
                 <element signature="e#2#21#0" expanded="true" />
               </folding>
@@ -323,14 +320,13 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1920" height="1080" extended-state="0" />
-    <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.22790202" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.22790202" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.32970297" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.26237625" />
+      <window_info anchor="bottom" id="Run" order="2" visible="true" weight="0.27425742" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -438,8 +434,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/random_forest.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="444">
-          <caret line="33" column="20" lean-forward="true" selection-start-line="33" selection-start-column="20" selection-end-line="33" selection-end-column="20" />
+        <state relative-caret-position="624">
+          <caret line="45" column="27" lean-forward="true" selection-start-line="45" selection-start-column="27" selection-end-line="45" selection-end-column="27" />
           <folding>
             <element signature="e#2#21#0" expanded="true" />
           </folding>
