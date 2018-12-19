@@ -66,12 +66,12 @@ def review_to_sentences(review, tokenizer, remove_stopwords=False):
     return sentences
 
 
-def get_clean_reviews(num_features):
+def get_clean_reviews():
     train, test, unlabeled_train = read_data()
     clean_train_reviews = []
     for review in train["review"]:
         clean_train_reviews.append(review_to_wordlist(review, remove_stopwords=True))
-        clean_test_reviews = []
+    clean_test_reviews = []
     for review in test["review"]:
         clean_test_reviews.append(review_to_wordlist(review, remove_stopwords=True))
     return clean_train_reviews, clean_test_reviews
