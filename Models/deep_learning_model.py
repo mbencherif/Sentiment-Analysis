@@ -16,11 +16,11 @@ import zipfile
 
 
 def read_data():
-    df1 = pd.read_csv("../Datasets/labeledTrainData.tsv", delimiter="\t")
+    df1 = pd.read_csv("../datasets/labeledTrainData.tsv", delimiter="\t")
     df1 = df1.drop(['id'], axis=1)
-    with zipfile.ZipFile('../Datasets/imdb_master.csv.zip', 'r') as zip_ref:
-        zip_ref.extractall('../Datasets/')
-    df2 = pd.read_csv('../Datasets/imdb_master.csv', encoding="latin-1")
+    with zipfile.ZipFile('../datasets/imdb_master.csv.zip', 'r') as zip_ref:
+        zip_ref.extractall('../datasets/')
+    df2 = pd.read_csv('../datasets/imdb_master.csv', encoding="latin-1")
     df2 = df2.drop(['Unnamed: 0', 'type', 'file'], axis=1)
     df2.columns = ["review", "sentiment"]
     df2 = df2[df2.sentiment != 'unsup']
@@ -66,7 +66,7 @@ def train_model():
 
 
 def predict(model, tokenizer, maxlen):
-    df_test = pd.read_csv("../Datasets/testData.tsv", header=0, delimiter="\t", quoting=3)
+    df_test = pd.read_csv("../datasets/testData.tsv", header=0, delimiter="\t", quoting=3)
     df_test["review"] = df_test.review.apply(lambda x: clean_text(x))
     df_test["sentiment"] = df_test["id"].map(lambda x: 1 if int(x.strip('"').split("_")[1]) >= 5 else 0)
     y_test = df_test["sentiment"]
