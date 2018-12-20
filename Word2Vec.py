@@ -10,7 +10,9 @@ from gensim.models import word2vec
 from sklearn.cluster import KMeans
 import time
 from sklearn.ensemble import RandomForestClassifier
-
+import warnings
+# get rid of Beautiful Soup url warnings.
+warnings.filterwarnings("ignore", category=UserWarning, module='bs4')
 
 def read_data():
     # Read data from files
@@ -141,8 +143,9 @@ def train_avg_vec():
     output.to_csv("Word2Vec_AverageVectors.csv", index=False, quoting=3)
 
 
-
-# Initialize and train the model (this will take some time)
+# ****************************************************************
+# Experiment Two
+# exploit the similarity of words within a cluster
 def train_models():
     # Set values for various parameters
     num_features = 300  # Word vector dimensionality
@@ -189,7 +192,7 @@ def bag_of_centroids_for_a_review(wordlist, word_centroid_map):
 
 def prepare_bag_of_centroids():
     train, test, unlabeled_train = read_data()
-    clean_train_reviews, clean_test_reviews = get_clean_reviews(num_features=300)
+    clean_train_reviews, clean_test_reviews = get_clean_reviews()
     # Pre-allocate an array for the training set bags of centroids (for speed)
     train_centroids = np.zeros((train["review"].size, num_clusters), dtype="float32")
     # Transform the training set reviews into bags of centroids
@@ -223,11 +226,11 @@ def predict():
 
 
 if __name__ == '__main__':
-    # logging.basicConfig(format='%(asctime)s : %(levelname)s : %(message)s', level=logging.INFO)
-    # # train_models()
+    logging.basicConfig(format='%(asctime)s : %(levelname)s : %(message)s', level=logging.INFO)
+    train_models()
     model = gensim.models.Word2Vec.load("300features_10context")
     # print(model.wv.vectors.shape)
-    # similarities = model.wv.most_similar('terrible')
+    similarities = model.wv.most_similar('terrible')
     # print(model["flower"])
     # print(similarities)
     # train_avg_vec()
@@ -260,4 +263,4 @@ if __name__ == '__main__':
             if list(word_centroid_map.values())[i] == cluster:
                 words.append(list(word_centroid_map.keys())[i])
         print(words)
-    #predict()
+    predict()

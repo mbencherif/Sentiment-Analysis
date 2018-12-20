@@ -10,7 +10,7 @@ import sys
 
 # the method that read the review and remove non-character and stopwords
 def process_review(review):
-    review_text = BeautifulSoup(review,features="html5lib").get_text()
+    review_text = BeautifulSoup(review,features="html.parser").get_text()
     letters_only_review = re.sub("[^a-zA-Z]", " ", review_text)
     words = letters_only_review.lower().split()
     stops = set(stopwords.words("english"))
@@ -19,7 +19,7 @@ def process_review(review):
 # read each review, "clean" the review, and append the review in the original file
 # with a column called "clean_review"
 def process_file(fileName):
-    labeled_data = pd.read_csv(fileName, header=0, delimiter="\t", quoting=3)
+    labeled_data = pd.read_csv("../Datasets/"+fileName, header=0, delimiter="\t", quoting=3)
     clean_review=[]
     nums = labeled_data.shape[0]
     for i in range(0, nums):

@@ -4,9 +4,9 @@ from bs4 import BeautifulSoup
 from nltk import WordNetLemmatizer, word_tokenize
 from nltk.corpus import stopwords
 
-from Word2Vec import read_data
+from Models.Word2Vec import read_data
 from sklearn.feature_extraction.text import TfidfTransformer
-from sklearn.svm import SVC, LinearSVC
+from sklearn.svm import LinearSVC
 from sklearn.feature_extraction.text import CountVectorizer  # Importing Vectorizer
 
 
