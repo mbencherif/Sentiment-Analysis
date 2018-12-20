@@ -82,7 +82,7 @@ def my_lemmatizer(w):
 
 if __name__ == '__main__':
 
-    labeled_data = pd.read_csv("Datasets/labeledTrainData.tsv", header=0, delimiter="\t", quoting=3)
+    labeled_data = pd.read_csv("datasets/labeledTrainData.tsv", header=0, delimiter="\t", quoting=3)
     labeled_data['clean_review'] = labeled_data['review'].apply(lambda r: pre_process(r))
     test_size = int(0.1 * labeled_data.shape[0])
     train = labeled_data.iloc[test_size:, :]
