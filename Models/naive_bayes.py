@@ -19,7 +19,7 @@ def process_review(review):
 # read each review, "clean" the review, and append the review in the original file
 # with a column called "clean_review"
 def process_file(fileName):
-    labeled_data = pd.read_csv("../Datasets/"+fileName, header=0, delimiter="\t", quoting=3)
+    labeled_data = pd.read_csv("../datasets/"+fileName, header=0, delimiter="\t", quoting=3)
     clean_review=[]
     nums = labeled_data.shape[0]
     for i in range(0, nums):
